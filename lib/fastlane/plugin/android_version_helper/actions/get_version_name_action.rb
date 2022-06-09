@@ -1,4 +1,4 @@
-require_relative 'base_action'
+require_relative 'internal/base_action'
 require_relative '../helper/android_version_helper_helper'
 
 module Fastlane
