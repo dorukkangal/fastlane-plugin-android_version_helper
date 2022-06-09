@@ -1,3 +1,43 @@
+default_platform(:android)
+
 lane :test do
-  android_version_helper
+  test_version_name('app/build.gradle', /versionName '(\d+\.\d+\.\d+)'/, '1.2.0')
+  test_version_name('app/build.gradle.kts', /versionName = "(\d+\.\d+\.\d+)"/, '1.2.0')
+  test_version_name('app/Version.kt', /const val VERSION_NAME = "(\d+\.\d+\.\d+)"/, '1.2.0')
+
+  test_version_code('app/build.gradle', /versionCode (\d+)/, 11)
+  test_version_code('app/build.gradle.kts', /versionCode = (\d+)/, 11)
+  test_version_code('app/Version.kt', /const val VERSION_CODE = (\d+)/, 11)
+end
+
+def test_version_name(file, version_name_regex, new_version_name)
+  version_name = get_version_name(
+    file_path: file,
+    regex: version_name_regex
+  )
+
+  set_version_name(
+    file_path: file,
+    regex: version_name_regex,
+    version_name: new_version_name
+  )
+
+  puts("Current version name: #{version_name}")
+  puts("New version name: #{Actions.lane_context[SharedValues::ANDROID_VERSION_NAME]}")
+end
+
+def test_version_code(file, version_code_regex, new_version_code)
+  version_code = get_version_code(
+    file_path: file,
+    regex: version_code_regex
+  )
+
+  set_version_code(
+    file_path: file,
+    regex: version_code_regex,
+    version_code: new_version_code
+  )
+
+  puts("Current version code: #{version_code}")
+  puts("New version code: #{Actions.lane_context[SharedValues::ANDROID_VERSION_CODE]}")
 end

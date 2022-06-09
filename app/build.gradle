@@ -1,0 +1,14 @@
+apply plugin: 'com.android.application'
+
+android {
+    defaultConfig {
+        applicationId 'com.dorukkangal'
+        versionName '1.1.0'
+        versionCode 10
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:1.6.0-alpha03"
+}
